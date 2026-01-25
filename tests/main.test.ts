@@ -1,32 +1,25 @@
-import { expect, it } from 'bun:test';
+import { beforeAll, expect, it } from 'bun:test';
 import { createI18n } from '../src/index';
 
 const locales = {
-  ru: {
-    hello: 'Привет мир!',
-    person: (count: number) => count > 1 ? 'Люди' : 'Человек',
-    kuba: 'dasd',
-  },
-
-  en: () => Promise.resolve({
-    hello: 'Hello world!',
-    english: 'English!',
-    person: (count: number) => count > 1 ? 'Persons' : 'Person',
-  }),
-
+  ru: () => import('./lang/ru').then(m => m.default),
+  en: () => import('./lang/en').then(m => m.default),
   other: () => Promise.resolve({
     hello: 'नमस्कार विश्व !',
-  }),
+    gumaza: 'cao cao',
+  } as const),
 };
 
 const store = new Map();
-const { t, setLocale } = createI18n({
+const { t, setLocale, fetchLocale } = createI18n({
   locale: 'ru',
   locales,
   store,
   fallbackLocales: { ru: ['en'] },
   onMissingKey: () => 'UNKNOWN KEY',
 });
+
+beforeAll(() => fetchLocale('en'));
 
 it('message correct output', () => {
   expect(t('hello')).toBe('Привет мир!');

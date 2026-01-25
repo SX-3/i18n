@@ -4,7 +4,7 @@
 
 ## Features
 
-- Small ~620 bytes gzip
+- Small ~630 bytes gzip
 - Support message functions (for pluralization or other features)
 - Dependency free
 - Type safe (for keys and message functions)

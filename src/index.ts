@@ -1,4 +1,4 @@
-import type { FlatLocales, GetMessageArgs } from './utils';
+import type { FlatLocales, GetMessageArgs, MakeReturn } from './utils';
 import { getMessageByPath } from './utils';
 
 export type MessageFunction = (...args: any[]) => string;
@@ -77,10 +77,12 @@ export function createI18n<
     }
   }
 
-  function t<K extends keyof FlatLocales<L>>(key: K & string, ...args: GetMessageArgs<FlatLocales<L>[K]>) {
+  function t<K extends keyof FlatLocales<L>>(key: K & string, ...args: GetMessageArgs<FlatLocales<L>[K]>): MakeReturn<FlatLocales<L>, K> {
     const messages = store.get(currentLocale) ?? {};
 
     let message = getMessageByPath(messages, key);
+
+    type Return = MakeReturn<FlatLocales<L>, K>;
 
     // ? Find message in fallbacks
     if (message === null && fallbackLocales && currentLocale in fallbackLocales) {
@@ -92,10 +94,10 @@ export function createI18n<
       }
     }
 
-    if (message === null) return onMissingKey(key, currentLocale) ?? key;
-    if (typeof message === 'function') return message(...args);
+    if (message === null) return onMissingKey(key, currentLocale) ?? key as Return;
+    if (typeof message === 'function') return message(...args) as Return;
 
-    return message;
+    return message as Return;
   }
 
   // ? Run loading main locale
