@@ -38,6 +38,10 @@ it('message functions', () => {
   expect(t('person', 2)).toBe('Люди');
 });
 
+it('nested message', () => {
+  expect(t('user.liked', 'SX3', 'post')).toBe('SX3 liked the post');
+});
+
 it('missing key rewrite', () => {
   // @ts-expect-error test missing key
   expect(t('unknown')).toBe('UNKNOWN KEY');
