@@ -66,23 +66,3 @@ t('apple', 1); // -> apple
 t('apple', 3); // -> 3 apples
 t('user.liked', 'SX3', 'post'); // -> SX3 liked the post
 ```
-
-### Usage with reactivity (Vue example)
-
-```ts
-import { createI18n } from '@sx3/i18n';
-import { createApp, shallowReactive } from 'vue';
-
-// Now store is reactive
-const store = shallowReactive(new Map());
-const i18n = createI18n({
-  locale: 'en',
-  store,
-  // ...other options
-});
-
-// Wait when main locale loaded
-await i18n.isReady();
-
-const app = createApp(App).mount('#app');
-```

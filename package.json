@@ -17,6 +17,7 @@
     "i18n",
     "localization"
   ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",

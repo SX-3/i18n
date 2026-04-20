@@ -104,7 +104,7 @@ export function createI18n<
   setLocale(currentLocale);
 
   return {
-    currentLocale,
+    get currentLocale() { return currentLocale; },
     isReady: () => Promise.all(Array.from(pending.values()).filter(l => !l.background)),
     fetchLocale,
     setLocale,
